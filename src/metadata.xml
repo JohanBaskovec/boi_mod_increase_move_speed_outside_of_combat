@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
     <name>Increase move speed outside of combat</name>
-    <directory>src</directory>
+    <directory>increase_move_speed_outside_of_combat</directory>
     <id>2955330241</id>
     <description>The player will always have a move speed of 2 when there are no enemies in the room, and normal speed otherwise. </description>
     <version>0.3</version>
