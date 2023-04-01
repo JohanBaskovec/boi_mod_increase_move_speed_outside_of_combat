@@ -4,14 +4,18 @@ local speedIncreaseEnabled = false
 local function updateSpeed(unknown, player, cacheFlag)
     if cacheFlag == CacheFlag.CACHE_SPEED then
         if speedIncreaseEnabled then
-            player.MoveSpeed = player.MoveSpeed + 10.0;
+            player.MoveSpeed = 2.0
         end
     end
 end
 
 local function forceSpeedReevaluation()
-    Game():GetPlayer(0):AddCacheFlags(CacheFlag.CACHE_SPEED)
-    Game():GetPlayer(0):EvaluateItems()
+    nPlayers = Game():GetNumPlayers()
+    for i=0, nPlayers do
+        player = Game():GetPlayer(i)
+        player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+        player:EvaluateItems()
+    end
 end
 
 local function checkIfSpeedIncreaseCanBeEnabled()
