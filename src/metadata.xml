@@ -14,7 +14,7 @@ In the configuration menu you can:
     [*] set the player's speed (default is 2.0)
     [*] toggle the mod (without having to go back to the main menu), or choose to only enable it after 20 minutes/boss rush or 30 minutes/Hush.
 [/list]</description>
-    <version>0.8</version>
+    <version>0.9</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Tweaks"/>
