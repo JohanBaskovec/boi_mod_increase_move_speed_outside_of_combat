@@ -3,8 +3,18 @@
     <name>Increase move speed outside of combat</name>
     <directory>increase_move_speed_outside_of_combat</directory>
     <id>2955330241</id>
-    <description>The players will always have a move speed of 2 when there are no enemies in the room, and normal speed otherwise. </description>
-    <version>0.7</version>
+    <description>[h2]Description[/h2]
+Increase the player's speed in room with no enemies, by default to 2.0. It does make it much easier to reach the boss rush and Hush, so if you're worried about balance you can enable the mod in the options only after you're reached them.
+
+[h2]Options[/h2]
+The mod can be configured using Mod Config Menu Pure https://steamcommunity.com/sharedfiles/filedetails/?id=2681875787
+
+In the configuration menu you can:
+[list]
+    [*] set the player's speed (default is 2.0)
+    [*] toggle the mod (without having to go back to the main menu), or choose to only enable it after 20 minutes/boss rush or 30 minutes/Hush.
+[/list]</description>
+    <version>0.8</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Tweaks"/>
