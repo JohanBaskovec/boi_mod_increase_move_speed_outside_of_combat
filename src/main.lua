@@ -1,11 +1,15 @@
 local json = require("json")
 local mod = RegisterMod("Increase move speed outside of combat", 1)
 
+local CHOICE_YES = "Yes"
+local CHOICE_NO = "No"
+local CHOICE_AFTER_20_MINUTES_OR_BOSS_RUSH = "After 20 minutes or boss rush"
+local CHOICE_AFTER_30_MINUTES_OR_HUSH = "After 30 minutes or Hush"
 local enabledChoices = {
-    "Yes",
-    "Only after 20 minutes",
-    "Only after 30 minutes",
-    "No",
+    CHOICE_YES,
+    CHOICE_AFTER_20_MINUTES_OR_BOSS_RUSH,
+    CHOICE_AFTER_30_MINUTES_OR_HUSH,
+    CHOICE_NO,
 }
 
 local speedChoices = {
@@ -137,30 +141,41 @@ local function forceSpeedReevaluation()
     end
 end
 
-local function checkIfSpeedIncreaseCanBeEnabled()
+local function isModEnabled()
     local game = Game()
     local minutesElapsed = (game.TimeCounter / 30) / 60
 
-    if settings.enabled == "No" or (settings.enabled == "Only after 20 minutes" and minutesElapsed < 20) or
-            (settings.enabled == "Only after 30 minutes" and minutesElapsed < 30) then
-        if speedIncreaseEnabled then
-            speedIncreaseEnabled = false
-            forceSpeedReevaluation()
-        end
-        return
-    end
+    local level = game:GetLevel()
+    local stage = level:GetStage()
+    local room = level:GetCurrentRoom()
+    local isBossRush = room:GetType() == RoomType.ROOM_BOSSRUSH
 
+    modEnabled = (settings.enabled == CHOICE_YES or
+            (settings.enabled == CHOICE_AFTER_20_MINUTES_OR_BOSS_RUSH and (minutesElapsed > 20 or isBossRush or stage >= LevelStage.STAGE4_1)) or
+            (settings.enabled == CHOICE_AFTER_30_MINUTES_OR_HUSH and (minutesElapsed > 30 or stage >= LevelStage.STAGE4_3)))
+    return modEnabled
+end
+
+local function checkIfSpeedIncreaseCanBeEnabled()
+    local game = Game()
     local room = game:GetRoom()
     -- room:IsClear() returns true after new enemies spawn in challenge rooms, so
     -- we have to use room:GetAliveEnemiesCount()
     local enemiesCount = room:GetAliveEnemiesCount()
-    if enemiesCount == 0 and (not speedIncreaseEnabled or speed ~= settings.speedOutsideCombat) then
-        speed = settings.speedOutsideCombat
-        speedIncreaseEnabled = true
-        forceSpeedReevaluation()
-    elseif enemiesCount > 0 and speedIncreaseEnabled then
-        speedIncreaseEnabled = false
-        forceSpeedReevaluation()
+    if isModEnabled() then
+        if enemiesCount == 0 and (not speedIncreaseEnabled or speed ~= settings.speedOutsideCombat) then
+            speed = settings.speedOutsideCombat
+            speedIncreaseEnabled = true
+            forceSpeedReevaluation()
+        elseif enemiesCount > 0 and speedIncreaseEnabled then
+            speedIncreaseEnabled = false
+            forceSpeedReevaluation()
+        end
+    else
+        if speedIncreaseEnabled then
+            speedIncreaseEnabled = false
+            forceSpeedReevaluation()
+        end
     end
 end
 
