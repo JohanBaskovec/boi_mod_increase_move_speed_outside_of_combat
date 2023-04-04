@@ -69,16 +69,18 @@ end
 
 initializeSettings()
 
+local optionsModName = "Increase move speed"
+
 local function setupMyModConfigMenuSettings()
     if ModConfigMenu == nil then
         return
     end
 
     -- Remove menu if it exists, makes debugging easier
-    ModConfigMenu.RemoveCategory(mod.Name)
+    ModConfigMenu.RemoveCategory(optionsModName)
 
     ModConfigMenu.AddSetting(
-            mod.Name,
+            optionsModName,
             nil,
             {
                 Type = ModConfigMenu.OptionType.NUMBER,
@@ -100,7 +102,7 @@ local function setupMyModConfigMenuSettings()
             }
     )
     ModConfigMenu.AddSetting(
-            mod.Name,
+            optionsModName,
             nil,
             {
                 Type = ModConfigMenu.OptionType.NUMBER,
