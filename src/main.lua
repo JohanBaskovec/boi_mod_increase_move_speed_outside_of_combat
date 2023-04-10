@@ -67,8 +67,6 @@ local function initializeSettings()
     end
 end
 
-initializeSettings()
-
 local optionsModName = "Increase move speed"
 
 local function setupMyModConfigMenuSettings()
@@ -183,3 +181,4 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, checkIfSpeedIncreaseCanBeEnabled)
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, updateSpeed)
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, initializeSettings)
